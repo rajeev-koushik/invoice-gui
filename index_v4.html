@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+}
+
+/* Create three equal columns that sits next to each other */
+.column {
+  flex: 33.33%;
+  padding: 5px;
+}
+table, th, td {
+  border: 1px solid black;
+
+}
+.column{
+	border-color: black;
+  border-width: .10em;
+  border-style: solid;
+	}
+</style>
+<script>
+var loadPdf = function(event) {
+	var pdf = document.getElementById("output_pdf");
+	pdf.src = URL.createObjectURL(event.target.files[0]);
+	fullFileName = event.target.files[0].name;
+	fileName = fullFileName.slice(0, -4);
+	console.log(pdf.src);
+};
+var loadTxt = function(event) {
+	var txt = document.getElementById("output_txt");
+	txt.src = URL.createObjectURL(event.target.files[0]);
+};
+let saveFile = () => {
+        // Get the data from each element on the form.
+    	const e_com = document.getElementById('ecom');
+        const v_name = document.getElementById('vndrname');
+        const v_address = document.getElementById('vndradd');
+        const v_pan = document.getElementById('vndrpan');
+        const v_gst = document.getElementById('vndrgst');
+		const Bill_add = document.getElementById('billadd');
+		const Ship_add = document.getElementById('shipadd');
+		const place_of_supply = document.getElementById('pos');
+		const place_of_delivery = document.getElementById('pod');
+		const order_number = document.getElementById('odrnumber');
+		const order_date = document.getElementById('odrdate');
+		const invoice_number = document.getElementById('inumber');
+		const invoice_details = document.getElementById('idetails');
+		const invoice_date = document.getElementById('idate');
+		const product_line_item = document.getElementById('pli');
+		const product_description = document.getElementById('pd');		
+		const unit_price = document.getElementById('up');
+		const quantity = document.getElementById('qty');
+		const net_amount = document.getElementById('netamt');
+		const tax_rate = document.getElementById('taxrate');
+		const tax_type = document.getElementById('taxtype');
+		const tax_amount = document.getElementById('taxamt');
+		const total_tax_amount = document.getElementById('tottaxamt');
+		const total_amount = document.getElementById('totamt');
+
+        
+        // This variable stores all the data.
+        let data = 
+            '\r E-com provider, ' + e_com.value + ' \r\n ' + 
+            'Vendor name, ' + v_name.value + ' \r\n ' + 
+            'Vendor address, ' + v_address.value + ' \r\n ' + 
+            'Vendor PAN, ' + v_pan.value + ' \r\n ' + 
+            'Vendor GST, ' + v_gst.value+ ' \r\n ' +
+			'Billing address, ' + Bill_add.value+ ' \r\n ' +
+			'Shipping address, ' + Ship_add.value+ ' \r\n ' +
+			'Place of supply, ' + place_of_supply.value+ ' \r\n ' +
+			'Place of Delivery, ' + place_of_delivery.value+ ' \r\n ' +
+			'Order Number, ' + order_number.value+ ' \r\n ' +
+			'Order Date, ' + order_date.value+ ' \r\n ' +
+			'Invoice Number, ' + invoice_number.value+ ' \r\n ' +
+			'Invoice Details, ' + invoice_details.value+ ' \r\n ' +
+			'Invoice Date, ' + invoice_date.value+ ' \r\n ' +
+			'Product Line Item, ' + product_line_item.value+ ' \r\n ' +
+			'Product Description, ' + product_description.value+ ' \r\n ' +
+			'Unit Price, ' + unit_price.value+ ' \r\n ' +
+			'Quantity, ' + quantity.value+ ' \r\n ' +
+			'Net Amount, ' + net_amount.value+ ' \r\n ' +
+			'Tax Rate, ' + tax_rate.value+ ' \r\n ' +
+			'Tax Type, ' + tax_type.value+ ' \r\n ' +
+			'Tax Amount, ' + tax_amount.value+ ' \r\n ' +
+			'Total Tax Amount, ' + total_tax_amount.value+ ' \r\n ' +
+			'Total Amount, ' + total_amount.value ;
+			
+        
+        // Convert the text to BLOB.
+        const textToBLOB = new Blob([data], { type: 'text/plain' });
+        const sFileName = fileName+'.csv';	   // The file to save the data.	
+		
+		let newLink = document.createElement("a");
+        newLink.download = sFileName;
+
+        if (window.webkitURL != null) {
+            newLink.href = window.webkitURL.createObjectURL(textToBLOB);
+        }
+        else {
+            newLink.href = window.URL.createObjectURL(textToBLOB);
+            newLink.style.display = "none";
+            document.body.appendChild(newLink);
+        }
+
+        newLink.click(); 
+    }
+</script>
+</head>
+<body>
+<div class="row">
+	<div class="column">
+		<button><label for="pdf" style="cursor: pointer;">Upload PDF</label></button>
+		<input type="file"  accept=".pdf" name="pdf" id="pdf" onchange="loadPdf(event)"  style="display: none;">
+		<iframe id="output_pdf" width="500" height="650px" /></iframe>
+	</div>
+	<div class="column">
+		<button><label for="txt" style="cursor: pointer;">Upload Text</label></button>
+		<input type="file"  accept=".txt" name="txt" id="txt" onchange="loadTxt(event)"  style="display: none;">
+		<iframe id="output_txt" width="500" height="650px" /></iframe>
+	</div>
+	<div class="column">
+		<table style="width:85% ">
+  <tr>
+    <th>Fields</th>
+    <th>Entries</th>
+  </tr>
+  <tr>
+    <th>E-com provider</th>
+    <td> <input type="text" id="ecom"/> </td>   
+  </tr>
+  <tr>
+    <th>vendor name</th>
+    <td> <input type="text" id="vndrname"/> </td>
+  </tr>
+	<tr>
+    <th>vendor address</th>
+    <td> <input type="text" id="vndradd"/></td>
+  </tr>
+	<tr>
+    <th>vendor PAN</th>
+    <td> <input type="text" id="vndrpan"/> </td>
+  </tr>
+	<tr>
+    <th>vendor GST</th>
+    <td> <input type="text" id="vndrgst"/> </td>
+  </tr>
+	<tr>
+    <th>Billing Address</th>
+    <td> <input type="text" id="billadd"/> </td>
+  </tr>
+	<tr>
+    <th>Shipping Address</th>
+    <td> <input type="text" id="shipadd"/> </td>
+  </tr>
+	<tr>
+    <th>Place of supply</th>
+    <td> <input type="text" id="pos"/> </td>
+  </tr>
+	<tr>
+    <th>Place of delivery</th>
+    <td> <input type="text" id="pod"/> </td>
+  </tr>
+	<tr>
+    <th>Order number</th>
+    <td> <input type="text" id="odrnumber"/> </td>    
+  </tr>
+	<tr>
+    <th>Order date</th>
+    <td> <input type="text" id="odrdate"/> </td>    
+  </tr>
+	<tr>
+    <th> Invoice number</th>
+    <td> <input type="text" id="inumber"/> </td>    
+  </tr>
+	<tr>
+    <th>Invoice details</th>
+    <td> <input type="text" id="idetails"/> </td>    
+  </tr>
+	<tr>
+    <th>Invoice date</th>
+    <td> <input type="text" id="idate"/> </td>    
+  </tr>
+	<tr>
+    <th>Product line item</th>
+    <td> <input type="text" id="pli"/> </td>    
+  </tr>
+	<tr>
+    <th>Product description</th>
+    <td> <input type="text" id="pd"/> </td>    
+  </tr>
+	<tr>
+    <th>Unit Price</th>
+    <td> <input type="text" id="up"/> </td>    
+  </tr>
+	<tr>
+    <th> Quantity</th>
+    <td> <input type="text" id="qty"/> </td>    
+  </tr>
+	<tr>
+    <th>Net amount</th>
+    <td> <input type="text" id="netamt"/> </td>    
+  </tr>
+	<tr>
+    <th>Tax rate</th>
+    <td> <input type="text" id="taxrate"/> </td>    
+  </tr>
+	<tr>
+    <th>Tax type</th>
+    <td> <input type="text" id="taxtype"/> </td>    
+  </tr>
+	<tr>
+    <th>Tax amount</th>
+    <td> <input type="text" id="taxamt"/> </td>    
+  </tr>
+	<tr>
+    <th> Total tax amount</th>
+    <td> <input type="text" id="tottaxamt"/> </td>    
+  </tr>
+	<tr>
+    <th>Total amount</th>
+    <td> <input type="text" id="totamt"/>  </td>    
+  </tr>
+</table>
+        <div>
+            <input type="button" id="bt" value="Save data to file" onclick="saveFile()" />
+        </div>
+	</div>
+</body>
+</html>
